@@ -1,10 +1,11 @@
 import tkinter.messagebox
 from tkinter import *
 import time
+import pygame
 
 NO_OF_SESSIONS = 4
-FOCUS_DURATION = 0.05  # In minutes
-BREAK_DURATION = 0.05
+FOCUS_DURATION = 0.1  # In minutes
+BREAK_DURATION = 0.1
 
 
 class Clock:
@@ -38,6 +39,9 @@ class Clock:
         self.FOCUS_DURATION = FOCUS_DURATION * 60  # Number of minutes to focus per cycle (in seconds)
         self.BREAK_DURATION = BREAK_DURATION * 60  # Number of minutes for break per cycle (in seconds)
         self.SESSIONS = NO_OF_SESSIONS  # Chosen default number of focus sessions
+        self.mixer = pygame.mixer  # Create the mixer from pygame
+        self.mixer.init()  # Initialize the mixer
+        self.transition_sound = pygame.mixer.Sound('./sounds/clock_trans_sound.mp3')  # Path to the transition sound
 
         self.root.mainloop()  # Keep the window open (run the GUI)
 
@@ -78,6 +82,10 @@ class Clock:
             self.root.update()  # Update the window to show countdown sequence
             time.sleep(1)  # Wait for a second
             duration -= 1  # Reduce the duration by a second after every second
+            if minutes == 0 and seconds == 1:
+                channel = pygame.mixer.Channel(0)  # Create a channel for playing the sound
+                channel.play(self.transition_sound)  # Play the transition sound through the channel
+                time.sleep(3)  # Play the sound for three seconds
 
     def stop_countdown(self):
         self.active = False  # Stop the clock from counting
