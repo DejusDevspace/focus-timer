@@ -4,8 +4,8 @@ import time
 import pygame
 
 NO_OF_SESSIONS = 4
-FOCUS_DURATION = 0.1  # In minutes
-BREAK_DURATION = 0.1
+FOCUS_DURATION = 25  # In minutes
+BREAK_DURATION = 5
 
 
 class Clock:
